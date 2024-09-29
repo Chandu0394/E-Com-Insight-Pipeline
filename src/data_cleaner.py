@@ -95,6 +95,6 @@ try:
     # Save the cleaned DataFrame to the 'data/cleaned' folder
     cleaner.save_cleaned_data('data/cleaned/cleaned.csv')
 except FileNotFoundError:
-    print("Error: The specified file 'rogue_records.csv' was not found.")
+    print("Error: The specified file 'rogue.csv' was not found.")
 except Exception as e:
     print(f"An unexpected error occurred: {e}")

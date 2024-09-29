@@ -87,8 +87,6 @@ class RogueRecordGenerator:
             record['price'] = secrets.randbelow(900000) + 100000  # range between 100k and 1 million
         elif issue_type == 'negative_qty':
             record['qty'] = secrets.randbelow(50) * -1
-        elif issue_type == 'missing_product_id':
-            record['product_id'] = None
         elif issue_type == 'future_order_date':
             record['datetime'] = datetime(2023, 1, 1)
             
@@ -139,8 +137,26 @@ class RogueRecordGenerator:
 
         return pd.DataFrame(records)
 
-    def save_to_csv(self, df, filename='rogue_records.csv'):
-        """Saves the DataFrame to a CSV file securely in the 'data/raw' folder."""
+    # def save_to_csv(self, df, filename='rogue.csv'):
+    #     """Saves the DataFrame to a CSV file securely in the 'data/raw' folder."""
+    #     try:
+    #         # Define the folder path
+    #         folder_path = os.path.join('data', 'raw')
+
+    #         # Ensure the folder exists
+    #         os.makedirs(folder_path, exist_ok=True)
+
+    #         # Save the CSV file in the specified folder
+    #         file_path = os.path.join(folder_path, filename)
+    #         df.to_csv(file_path, index=False)
+
+    #         print(f"File saved successfully as {file_path}")
+    #     except Exception as e:
+    #         print(f"An error occurred while saving the file: {e}")
+
+    def save_to_csv(self, df, filename='rogue.csv'):
+        """Saves the DataFrame to a CSV file securely in the 'data/raw' folder.
+       If the file already exists, it will be replaced."""
         try:
             # Define the folder path
             folder_path = os.path.join('data', 'raw')
@@ -150,6 +166,11 @@ class RogueRecordGenerator:
 
             # Save the CSV file in the specified folder
             file_path = os.path.join(folder_path, filename)
+
+            # Check if the file already exists and replace it
+            if os.path.isfile(file_path):
+                print(f"{file_path} already exists and will be replaced.")
+
             df.to_csv(file_path, index=False)
 
             print(f"File saved successfully as {file_path}")
