@@ -32,15 +32,6 @@ class DataCleaner:
         self.df = self.df[self.df['payment_type'].isin(valid_payment_types)].copy()
         return self
 
-    def clean_unrealistic_price(self, max_price=10000):
-        """Cap the price to a defined reasonable maximum."""
-        if 'price' not in self.df.columns:
-            raise KeyError("The 'price' column is missing in the DataFrame.")
-        
-        self.df.loc[:, 'price'] = pd.to_numeric(self.df['price'], errors='coerce')
-        self.df.loc[self.df['price'] > max_price, 'price'] = max_price
-        return self
-
     def clean_negative_qty(self):
         """Replace negative quantities with a default of 1."""
         if 'qty' not in self.df.columns:

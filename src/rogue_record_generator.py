@@ -83,13 +83,10 @@ class RogueRecordGenerator:
             record['customer_name'] = ""
         elif issue_type == 'invalid_payment_type':
             record['payment_type'] = "Invalid"
-        elif issue_type == 'unrealistic_price':
-            record['price'] = secrets.randbelow(900000) + 100000  # range between 100k and 1 million
         elif issue_type == 'negative_qty':
             record['qty'] = secrets.randbelow(50) * -1
         elif issue_type == 'future_order_date':
             record['datetime'] = datetime(2023, 1, 1)
-            
         return record
 
     def generate_records(self):

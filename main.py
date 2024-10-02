@@ -1,7 +1,4 @@
-# import pandas as pd
-# from src.rogue_record_generator import RogueRecordGenerator
-# from src.data_cleaner import DataCleaner
-# from src.upload_to_gcs import GCSUploader  # Ensure you're using GCSUploader, not FileUploader
+
 # def main():
 #     generator = RogueRecordGenerator(num_records=10000)
 #     df_with_rogue_records = generator.generate_records()
@@ -66,7 +63,7 @@ def main():
   
     try:
         # Load the DataFrame
-        # df_with_rogue_records = pd.read_csv('data\\raw\\rogue.csv')  # Ensure correct path
+        df_with_rogue_records = pd.read_csv('data\\raw\\rogue.csv')  # Ensure correct path
 
         # Initialize the DataCleaner class with the DataFrame
         cleaner = DataCleaner(df_with_rogue_records)
@@ -85,6 +82,7 @@ def main():
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
     
+    #uploading raw and cleaned csv files to gcs
     uploader = GCSUploader(
         project_id="batch5",
         service_account_key_path="C:\\Users\\yeruv\\Downloads\\crack-solstice-432414-k6-c380ea9f8c10.json"
