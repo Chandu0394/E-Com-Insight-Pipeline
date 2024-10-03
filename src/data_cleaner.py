@@ -9,6 +9,21 @@ class DataCleaner:
         
         self.df = df.copy()  # Make a copy to avoid modifying the original DataFrame
 
+    def perform_eda(self):
+        """Perform basic exploratory data analysis (EDA) on the DataFrame."""
+        # Display the first few rows of the DataFrame
+        print("\nFirst 5 rows of the DataFrame:")
+        print(self.df.head())
+        
+        # Display a summary of statistics for numerical columns
+        print("\nSummary Statistics:")
+        print(self.df.describe())
+        
+        # Display information about the DataFrame including data types and non-null counts
+        print("\nDataFrame Information:")
+        print(self.df.info())
+        return self
+
     def clean_missing_customer_name(self):
         """Fill missing values for customer_name and failure_reason."""
         if 'customer_name' in self.df.columns:

@@ -134,22 +134,7 @@ class RogueRecordGenerator:
 
         return pd.DataFrame(records)
 
-    # def save_to_csv(self, df, filename='rogue.csv'):
-    #     """Saves the DataFrame to a CSV file securely in the 'data/raw' folder."""
-    #     try:
-    #         # Define the folder path
-    #         folder_path = os.path.join('data', 'raw')
-
-    #         # Ensure the folder exists
-    #         os.makedirs(folder_path, exist_ok=True)
-
-    #         # Save the CSV file in the specified folder
-    #         file_path = os.path.join(folder_path, filename)
-    #         df.to_csv(file_path, index=False)
-
-    #         print(f"File saved successfully as {file_path}")
-    #     except Exception as e:
-    #         print(f"An error occurred while saving the file: {e}")
+   
 
     def save_to_csv(self, df, filename='rogue.csv'):
         """Saves the DataFrame to a CSV file securely in the 'data/raw' folder.
@@ -173,6 +158,9 @@ class RogueRecordGenerator:
             print(f"File saved successfully as {file_path}")
         except Exception as e:
             print(f"An error occurred while saving the file: {e}")
+
+
+
 
 
 # Usage

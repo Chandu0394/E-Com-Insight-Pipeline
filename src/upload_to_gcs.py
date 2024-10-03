@@ -16,7 +16,6 @@ class GCSUploader:
     def upload_file(self, bucket_name, source_file_name, destination_blob_name):
         """
         Uploads a file to the specified GCS bucket.
-
         :param bucket_name: Name of the GCS bucket.
         :param source_file_name: Path to the file to be uploaded.
         :param destination_blob_name: The destination path in the GCS bucket.

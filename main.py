@@ -71,7 +71,6 @@ def main():
         # Apply the cleaning steps
         cleaner.clean_missing_customer_name()\
                .clean_invalid_payment_type()\
-               .clean_unrealistic_price()\
                .clean_negative_qty()\
                .clean_datetime_format()
 
