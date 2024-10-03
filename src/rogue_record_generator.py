@@ -75,7 +75,7 @@ class RogueRecordGenerator:
     def _introduce_rogue_records(self, record):
         """Introduces rogue records with certain issues."""
         issue_type = random.choice([
-            'missing_customer_name', 'invalid_payment_type', 'unrealistic_price',
+            'missing_customer_name', 'invalid_payment_type',
             'negative_qty', 'missing_product_id', 'future_order_date'
         ])
         
