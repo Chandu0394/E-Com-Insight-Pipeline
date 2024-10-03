@@ -18,7 +18,6 @@ The project consists of three primary components:
 ### 2. Data Cleaning
 - **Clean Missing Values**: Fills missing customer names with "Unknown Customer" and missing failure reasons with "None".
 - **Validate Payment Types**: Removes records with invalid payment types such as unsupported payment methods.
-- **Cap Unrealistic Prices**: Ensures the price stays within a reasonable range by capping it at a maximum value.
 - **Handle Negative Quantities**: Replaces negative quantities with a default value of 1.
 - **Datetime Format**: Converts date columns to valid pandas `datetime` format.
 
@@ -32,6 +31,24 @@ Before using this project, you need the following:
 - Python 3.x installed on your machine.
 - Google Cloud SDK installed and authenticated (for GCS interaction).
 - A GCS bucket to store the cleaned data.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

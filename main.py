@@ -21,7 +21,8 @@ def main():
         cleaner = DataCleaner(df_with_rogue_records)
 
         # Apply the cleaning steps
-        cleaner.clean_missing_customer_name()\
+        cleaner.perform_eda()\
+               .clean_missing_customer_name()\
                .clean_invalid_payment_type()\
                .clean_negative_qty()\
                .clean_datetime_format()
