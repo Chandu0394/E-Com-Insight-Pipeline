@@ -4,15 +4,15 @@ import os
 from datetime import datetime, timedelta
 import secrets
 
-
 # Helper function for generating random dates
 def random_date(start, end):
     return start + timedelta(seconds=secrets.randbelow(int((end - start).total_seconds())))
 
 # Class for generating rogue records
 class RogueRecordGenerator:
-    def __init__(self, num_records=10000):
+    def __init__(self, num_records=10000, rogue_prob=0.1):
         self.num_records = num_records
+        self.rogue_prob = rogue_prob
         self.electronics = [
             'Smartphone', 'Laptop', 'Tablet', 'Smartwatch', 'Bluetooth Speaker', 
             'Headphones', 'Gaming Console', 'Camera', 'Drone', 'External Hard Drive', 
@@ -91,7 +91,7 @@ class RogueRecordGenerator:
         return record
 
     def generate_records(self):
-        """Generates the records, including rogue ones."""
+        """Generates the records, including rogue ones based on the rogue probability."""
         records = []
 
         for i in range(self.num_records):
@@ -127,8 +127,8 @@ class RogueRecordGenerator:
                 'payment_txn_success': payment_success, 'failure_reason': failure_reason
             }
 
-            # Introduce rogue record with a 10% probability
-            if random.random() < 0.1:
+            # Introduce rogue record based on the probability
+            if random.random() < self.rogue_prob:
                 record = self._introduce_rogue_records(record)
 
             records.append(record)
@@ -160,6 +160,13 @@ class RogueRecordGenerator:
 
 # Usage
 if __name__ == "__main__":
-    generator = RogueRecordGenerator(num_records=10000)
+    # Input the number of records and rogue record probability from the user
+    num_records = int(input("Enter the number of records to generate: "))
+    rogue_prob = float(input("Enter the probability of rogue records (between 0 and 1): "))
+
+    # Create generator instance
+    generator = RogueRecordGenerator(num_records=num_records, rogue_prob=rogue_prob)
+
+    # Generate records and save to CSV
     df_with_rogue_records = generator.generate_records()
     generator.save_to_csv(df_with_rogue_records, 'rogue.csv')

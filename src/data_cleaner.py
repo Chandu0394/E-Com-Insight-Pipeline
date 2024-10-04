@@ -1,5 +1,7 @@
-import pandas as pd
 import os
+import re
+from datetime import datetime
+import pandas as pd
 
 class DataCleaner:
     def __init__(self, df):
@@ -67,14 +69,18 @@ class DataCleaner:
     def get_cleaned_data(self):
         """Return the cleaned DataFrame."""
         return self.df
-
-    def save_cleaned_data(self, file_path):
-        """Save the cleaned DataFrame to a CSV file."""
+    def save_cleaned_data(self, file_path_prefix):
+        """Save the cleaned DataFrame to a CSV file with a timestamp."""
         try:
             # Ensure the directory exists
-            directory = os.path.dirname(file_path)
+            directory = os.path.dirname(file_path_prefix)
             if not os.path.exists(directory):
                 os.makedirs(directory)
+            
+            # Append the current timestamp to the file name
+            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+            file_name = f"cleaned_{timestamp}.csv"
+            file_path = os.path.join(directory, file_name)
             
             # Save the DataFrame to CSV
             self.df.to_csv(file_path, index=False)
@@ -82,25 +88,62 @@ class DataCleaner:
         except Exception as e:
             print(f"An error occurred while saving the file: {e}")
 
+def get_latest_rogue_csv_file(folder_path='data/raw'):
+    """Find the latest rogue CSV file in the given folder based on timestamp."""
+    try:
+        # List all files in the folder
+        files = os.listdir(folder_path)
+
+        # Filter files that match the 'rogue_YYYYMMDD_HHMMSS.csv' pattern
+        rogue_files = [f for f in files if re.match(r'rogue_\d{8}_\d{6}\.csv', f)]
+
+        if not rogue_files:
+            raise FileNotFoundError("No rogue CSV files found in the specified folder.")
+
+        # Sort files by timestamp extracted from the filename
+        rogue_files.sort(
+            key=lambda x: datetime.strptime(x.split('_')[1] + x.split('_')[2].split('.')[0], '%Y%m%d%H%M%S'),
+            reverse=True
+        )
+
+        # Return the most recent rogue file
+        return os.path.join(folder_path, rogue_files[0])
+    
+    except Exception as e:
+        print(f"An error occurred while finding the latest rogue CSV file: {e}")
+        return None
+
 # Usage example:
-
 try:
-    # Load the DataFrame
-    df_with_rogue_records = pd.read_csv('data\\raw\\rogue.csv')
+    # Get the path to the most recent rogue CSV file
+    latest_csv_path = get_latest_rogue_csv_file()
 
-    # Initialize the DataCleaner class with the DataFrame
-    cleaner = DataCleaner(df_with_rogue_records)
+    if latest_csv_path:
+        print(f"Processing the latest rogue file: {latest_csv_path}")
 
-    # Apply the cleaning steps
-    cleaner.perform_eda()\
-           .clean_missing_customer_name()\
-           .clean_invalid_payment_type()\
-           .clean_negative_qty()\
-           .clean_datetime_format()
+        # Load the DataFrame from the latest rogue CSV
+        df_with_rogue_records = pd.read_csv(latest_csv_path)
 
-    # Save the cleaned DataFrame to the 'data/cleaned' folder
-    cleaner.save_cleaned_data('data/cleaned/cleaned.csv')
+        # Initialize the DataCleaner class with the DataFrame
+        cleaner = DataCleaner(df_with_rogue_records)
+
+        # Apply the cleaning steps
+        cleaner.perform_eda()\
+               .clean_missing_customer_name()\
+               .clean_invalid_payment_type()\
+               .clean_negative_qty()\
+               .clean_datetime_format()
+
+        # Save the cleaned DataFrame to the 'data/cleaned' folder
+        cleaner.save_cleaned_data('data/cleaned/cleaned.csv')
+    else:
+        print("No rogue files found to process.")
+
 except FileNotFoundError:
-    print("Error: The specified file 'rogue.csv' was not found.")
+    print("Error: The specified file was not found.")
 except Exception as e:
     print(f"An unexpected error occurred: {e}")
+
+
+
+
