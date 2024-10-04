@@ -4,6 +4,7 @@ import os
 from datetime import datetime, timedelta
 import secrets
 
+
 # Helper function for generating random dates
 def random_date(start, end):
     return start + timedelta(seconds=secrets.randbelow(int((end - start).total_seconds())))
@@ -134,11 +135,8 @@ class RogueRecordGenerator:
 
         return pd.DataFrame(records)
 
-   
-
     def save_to_csv(self, df, filename='rogue.csv'):
-        """Saves the DataFrame to a CSV file securely in the 'data/raw' folder.
-       If the file already exists, it will be replaced."""
+        """Saves the DataFrame to a CSV file in the 'data/raw' folder with a unique timestamp."""
         try:
             # Define the folder path
             folder_path = os.path.join('data', 'raw')
@@ -146,21 +144,18 @@ class RogueRecordGenerator:
             # Ensure the folder exists
             os.makedirs(folder_path, exist_ok=True)
 
-            # Save the CSV file in the specified folder
-            file_path = os.path.join(folder_path, filename)
+            # Append timestamp to filename to ensure it's unique
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            new_filename = f"{filename.split('.')[0]}_{timestamp}.csv"
 
-            # Check if the file already exists and replace it
-            if os.path.isfile(file_path):
-                print(f"{file_path} already exists and will be replaced.")
+            # Save the CSV file in the specified folder
+            file_path = os.path.join(folder_path, new_filename)
 
             df.to_csv(file_path, index=False)
 
             print(f"File saved successfully as {file_path}")
         except Exception as e:
             print(f"An error occurred while saving the file: {e}")
-
-
-
 
 
 # Usage
