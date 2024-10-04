@@ -45,17 +45,17 @@ if __name__ == "__main__":
     # Instantiate the GCSUploader
     uploader = GCSUploader(
         project_id="batch5",
-        service_account_key_path="C:\\Users\\yeruv\\Downloads\\crack-solstice-432414-k6-c380ea9f8c10.json"
+        service_account_key_path="C:\\Users\\yeruv\\Downloads\\projectp2-437312-1236b25e88e2.json"
     )
 
     # Upload the first file
-    bucket_name1 = "revprop25"
+    bucket_name1 = "revbucketgen"
     source_file_name1 = "data\\cleaned\\cleaned.csv"
     destination_blob_name1 = "cleaned.csv"
     uploader.upload_file(bucket_name1, source_file_name1, destination_blob_name1)
 
     # Upload the second file
-    bucket_name2 = "revprop25"
+    bucket_name2 = "revbucketgen"
     source_file_name2 = "data\\raw\\rogue.csv"
     destination_blob_name2 = "rogue.csv"
     uploader.upload_file(bucket_name2, source_file_name2, destination_blob_name2)
